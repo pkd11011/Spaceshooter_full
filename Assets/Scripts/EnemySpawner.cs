@@ -2,25 +2,40 @@
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Kéo Prefab Enemy_01 vào đây
-    public float spawnInterval = 2f; // Cứ 2 giây sinh ra 1 con
-    private float timer;
+    public EnemyWave[] enemyWaves;
+    private int currentWave = 0;
 
-    void Update()
+    void Start()
     {
-        timer += Time.deltaTime;
-        if (timer >= spawnInterval)
-        {
-            SpawnEnemy();
-            timer = 0;
-        }
+        SpawnEnemyWave();
     }
 
-    void SpawnEnemy()
+    private void SpawnEnemyWave()
     {
-        // Sinh ra kẻ địch tại vị trí ngẫu nhiên theo chiều ngang (trục X)
-        float randomX = Random.Range(-2.5f, 2.5f);
-        Vector3 spawnPos = new Vector3(randomX, 6f, 0f);
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        if (enemyWaves == null || enemyWaves.Length == 0) return;
+
+        var waveInfo = enemyWaves[currentWave];
+        var startPosition = waveInfo.flyPath[0];
+
+        for (int i = 0; i < waveInfo.numberOfEnemy; i++)
+        {
+            var enemy = Instantiate(waveInfo.enemyPrefab, startPosition, Quaternion.identity);
+
+            var agent = enemy.GetComponent<FlyPathAgent>();
+            if (agent != null)
+            {
+                agent.flyPath = waveInfo.flyPath;
+                agent.flySpeed = waveInfo.speed;
+            }
+
+            startPosition += waveInfo.formationOffset;
+        }
+
+        currentWave++;
+
+        if (currentWave < enemyWaves.Length)
+        {
+            Invoke(nameof(SpawnEnemyWave), waveInfo.nextWaveDelay);
+        }
     }
 }
