@@ -3,8 +3,8 @@
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject bulletPrefabs;
-    public Transform muzzlePoint;
     public float shootingInterval = 0.1f;
+    public Vector3 bulletOffset;
     private float lastBulletTime;
 
     void Update()
@@ -21,6 +21,7 @@ public class PlayerShooting : MonoBehaviour
 
     private void ShootBullet()
     {
-        Instantiate(bulletPrefabs, muzzlePoint.position, muzzlePoint.rotation);
+        // Tạo đạn tại vị trí tàu cộng thêm khoảng cách offset
+        Instantiate(bulletPrefabs, transform.position + bulletOffset, transform.rotation);
     }
 }
