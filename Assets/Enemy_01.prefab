@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7292448979270749671}
   - component: {fileID: 1778894364645106999}
   - component: {fileID: 1595557429919706259}
+  - component: {fileID: 3894327027672148039}
+  - component: {fileID: -6945126725615694510}
   m_Layer: 7
   m_Name: Enemy_01
   m_TagString: Untagged
@@ -102,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 5860577311351498340, guid: 04d11010095c6e548abeddbffbcf4bd5,
     type: 3}
+  defaultHealthPoint: 2
 --- !u!61 &7292448979270749671
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -131,7 +134,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -187,3 +190,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+--- !u!114 &3894327027672148039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643061982565018114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeb4ed25a59c17546a27f3f274eb3d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: -6945126725615694510}
+  damage: 2
+--- !u!114 &-6945126725615694510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643061982565018114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1c8694fc659444587030594f7e0cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 5860577311351498340, guid: 04d11010095c6e548abeddbffbcf4bd5,
+    type: 3}
+  defaultHealthPoint: 2

@@ -2,32 +2,41 @@
 
 public class PlayerMovement : MonoBehaviour
 {
+    private float minX, maxX, minY, maxY;
+
+    void Start()
+    {
+        // Lấy giới hạn màn hình theo Camera
+        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        // Giới hạn theo kích thước sprite (để không bị lọt ra ngoài)
+        float halfWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
+        float halfHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
+
+        minX = bottomLeft.x + halfWidth;
+        maxX = topRight.x - halfWidth;
+        minY = bottomLeft.y + halfHeight;
+        maxY = topRight.y - halfHeight;
+    }
+
     void Update()
     {
-        // Kiểm tra nếu đang đè chuột trái
         if (Input.GetMouseButton(0))
         {
-            // 1. Lấy vị trí chuột (tọa độ Pixel màn hình)
             Vector3 mousePos = Input.mousePosition;
-            Debug.Log("1. Chuột đang ở Pixel: " + mousePos);
 
-            // 2. Chuyển sang tọa độ Game (World Point)
-            if (Camera.main != null)
-            {
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            // Chuyển sang world đúng chuẩn
+            mousePos.z = -Camera.main.transform.position.z;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                // 3. Ép Z về 0 (Rất quan trọng)
-                worldPos.z = 0;
-                Debug.Log("2. Tọa độ Game tính được: " + worldPos);
+            worldPos.z = 0;
 
-                // 4. Gán vị trí cho tàu
-                transform.position = worldPos;
-                Debug.Log("3. Đã gán vị trí tàu xong!");
-            }
-            else
-            {
-                Debug.LogError("LỖI: Không tìm thấy Camera có Tag là MainCamera!");
-            }
+            // Clamp theo màn hình
+            float clampedX = Mathf.Clamp(worldPos.x, minX, maxX);
+            float clampedY = Mathf.Clamp(worldPos.y, minY, maxY);
+
+            transform.position = new Vector3(clampedX, clampedY, 0);
         }
     }
 }
