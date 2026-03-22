@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class FlyPathAgent : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class FlyPathAgent : MonoBehaviour
         if (flyPath != null && flyPath.waypoints != null && flyPath.waypoints.Length > 0)
         {
             transform.position = flyPath[0];
+
+            Debug.Log(gameObject.name + " sinh ra tại: " + transform.position);
+        }
+        else
+        {
+            Debug.LogError(gameObject.name + " chưa được gán FlyPath!");
         }
     }
 
